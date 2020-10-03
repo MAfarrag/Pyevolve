@@ -37,7 +37,7 @@ def logEnable(filename=Consts.CDefLogFile, level=Consts.CDefLogLevel):
       >>> pyevolve.logEnable()
 
    """
-   import logging
+   from pyevolve import logging
    logging.basicConfig(level=level,
                        format='%(asctime)s [%(module)s:%(funcName)s:%(lineno)d] %(levelname)s %(message)s',
                        filename=filename,

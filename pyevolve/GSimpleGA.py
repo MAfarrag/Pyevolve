@@ -61,17 +61,17 @@ Class
 import random
 import logging
 from time import time
-from types import BooleanType
+# from types import BooleanType
 from sys import platform as sys_platform
 from sys import stdout as sys_stdout
 import code
 
-from GPopulation import GPopulation
-from FunctionSlot import FunctionSlot
-from GenomeBase import GenomeBase
-from DBAdapters import DBBaseAdapter
-import Consts
-import Util
+from pyevolve.GPopulation import GPopulation
+from pyevolve.FunctionSlot import FunctionSlot
+from pyevolve.GenomeBase import GenomeBase
+from pyevolve.DBAdapters import DBBaseAdapter
+from pyevolve import Consts
+from pyevolve import Util
 import pyevolve
 
 # Platform dependant code for the Interactive Mode
@@ -214,7 +214,7 @@ class GSimpleGA(object):
         if seed:
             random.seed(seed)
 
-        if type(interactiveMode) != BooleanType:
+        if type(interactiveMode) != bool:# BooleanType:
             Util.raiseException("Interactive Mode option must be True or False", TypeError)
 
         if not isinstance(genome, GenomeBase):
@@ -360,7 +360,7 @@ class GSimpleGA(object):
            The *setInteractiveMode* method.
 
         """
-        if type(flag) != BooleanType:
+        if type(flag) != bool :#BooleanType:
             Util.raiseException("Interactive Mode option must be True or False", TypeError)
         self.interactiveMode = flag
 
@@ -645,7 +645,7 @@ class GSimpleGA(object):
 
         crossover_empty = self.select(popID=self.currentGeneration).crossover.isEmpty()
 
-        for i in xrange(0, size_iterate, 2):
+        for i in range(0, size_iterate, 2):
             genomeMom = self.select(popID=self.currentGeneration)
             genomeDad = self.select(popID=self.currentGeneration)
 
@@ -686,13 +686,13 @@ class GSimpleGA(object):
         if self.elitism:
             logging.debug("Doing elitism.")
             if self.getMinimax() == Consts.minimaxType["maximize"]:
-                for i in xrange(self.nElitismReplacement):
+                for i in range(self.nElitismReplacement):
                     #re-evaluate before being sure this is the best
                     self.internalPop.bestRaw(i).evaluate()
                     if self.internalPop.bestRaw(i).score > newPop.bestRaw(i).score:
                         newPop[len(newPop) - 1 - i] = self.internalPop.bestRaw(i)
             elif self.getMinimax() == Consts.minimaxType["minimize"]:
-                for i in xrange(self.nElitismReplacement):
+                for i in range(self.nElitismReplacement):
                     #re-evaluate before being sure this is the best
                     self.internalPop.bestRaw(i).evaluate()
                     if self.internalPop.bestRaw(i).score < newPop.bestRaw(i).score:
@@ -722,7 +722,7 @@ class GSimpleGA(object):
         percent = self.currentGeneration * 100 / float(self.nGenerations)
         message = "Gen. %d (%.2f%%):" % (self.currentGeneration, percent)
         logging.info(message)
-        print message,
+        print(message)
         sys_stdout.flush()
         self.internalPop.statistics()
         stat_ret = self.internalPop.printStats()
@@ -731,7 +731,7 @@ class GSimpleGA(object):
     def printTimeElapsed(self):
         """ Shows the time elapsed since the begin of evolution """
         total_time = time() - self.time_init
-        print "Total time elapsed: %.3f seconds." % total_time
+        print("Total time elapsed: %.3f seconds." % total_time)
         return total_time
 
     def dumpStatsDB(self):
@@ -805,26 +805,26 @@ class GSimpleGA(object):
                 if stopFlagTerminationCriteria:
                     logging.debug("Evolution stopped by the Termination Criteria !")
                     if freq_stats:
-                        print "\n\tEvolution stopped by Termination Criteria function !\n"
+                        print("\n\tEvolution stopped by Termination Criteria function !\n")
                     break
 
                 if stopFlagCallback:
                     logging.debug("Evolution stopped by Step Callback function !")
                     if freq_stats:
-                        print "\n\tEvolution stopped by Step Callback function !\n"
+                        print("\n\tEvolution stopped by Step Callback function !\n")
                     break
 
                 if self.interactiveMode:
                     if sys_platform[:3] == "win":
                         if msvcrt.kbhit():
                             if ord(msvcrt.getch()) == Consts.CDefESCKey:
-                                print "Loading modules for Interactive Mode...",
+                                print("Loading modules for Interactive Mode...")
                                 logging.debug(
                                     "Windows Interactive Mode key detected ! generation=%d",
                                     self.getCurrentGeneration()
                                 )
                                 from pyevolve import Interaction
-                                print " done !"
+                                print(" done !")
                                 interact_banner = "## Pyevolve v.%s - Interactive Mode ##\n" \
                                                   "Press CTRL-Z to quit interactive mode." % (pyevolve.__version__,)
                                 session_locals = {
@@ -838,13 +838,13 @@ class GSimpleGA(object):
 
                     is_interactive_generation = self.getInteractiveGeneration() == self.getCurrentGeneration()
                     if self.getInteractiveGeneration() >= 0 and is_interactive_generation:
-                        print "Loading modules for Interactive Mode...",
+                        print("Loading modules for Interactive Mode...")
                         logging.debug(
                             "Manual Interactive Mode key detected ! generation=%d",
                             self.getCurrentGeneration()
                         )
                         from pyevolve import Interaction
-                        print " done !"
+                        print(" done !")
                         interact_banner = "## Pyevolve v.%s - Interactive Mode ##" % (pyevolve.__version__,)
                         session_locals = {
                             "ga_engine": self,
@@ -861,7 +861,7 @@ class GSimpleGA(object):
         except KeyboardInterrupt:
             logging.debug("CTRL-C detected, finishing evolution.")
             if freq_stats:
-                print "\n\tA break was detected, you have interrupted the evolution !\n"
+                print("\n\tA break was detected, you have interrupted the evolution !\n")
 
         if freq_stats != 0:
             self.printStats()

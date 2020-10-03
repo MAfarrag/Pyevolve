@@ -9,8 +9,8 @@ allele types to use with the supported chromosomes.
 
 """
 import random
-import Consts
-import Util
+from pyevolve import Consts
+from pyevolve import Util
 
 class GAlleles(object):
    """ GAlleles Class - The set of alleles
