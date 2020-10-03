@@ -6,8 +6,8 @@
 This module have the *scaling schemes* like Linear scaling, etc.
 
 """
-import Consts
-import Util
+from pyevolve import Consts
+from pyevolve import Util
 import math
 import logging
 

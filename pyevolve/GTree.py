@@ -34,9 +34,9 @@ Classes
 -------------------------------------------------------------
 """
 import random
-from GenomeBase import GenomeBase, GTreeBase, GTreeNodeBase
-import Consts
-import Util
+from pyevolve.GenomeBase import GenomeBase, GTreeBase, GTreeNodeBase
+from pyevolve import Consts
+from pyevolve import Util
 
 try:
     import pydot
@@ -389,7 +389,7 @@ class GTreeGP(GTreeBase):
         :param startNode: used to plot more than one individual
         """
         if not HAVE_PYDOT:
-            print "You must install Pydot to use this feature !"
+            print("You must install Pydot to use this feature !")
             return
 
         count = startNode
